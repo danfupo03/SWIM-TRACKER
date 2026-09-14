@@ -22,7 +22,7 @@ export function formatSeconds(seconds: number): string {
 }
 
 export const timeService = {
-  findAll(filters: { season?: string; test?: string }): TimeRecord[] {
+  findAll(filters: { season?: string; test?: string } = {}): TimeRecord[] {
     let query = "SELECT * FROM times WHERE 1=1";
     const params: Record<string, string> = {};
 

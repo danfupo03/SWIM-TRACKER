@@ -3,10 +3,18 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^7"
+  },
+  "dependencies": {
+    "@elysiajs/html": "^1.4.2",
+    "@elysiajs/static": "^1.4.10",
+    "elysia": "^1.4.30"
   }
 }

@@ -6,6 +6,7 @@
     "module": "Preserve",
     "moduleDetection": "force",
     "jsx": "react-jsx",
+    "jsxImportSource": "@elysiajs/html",
     "allowJs": true,
     "types": ["bun"],
 

@@ -1,6 +1,6 @@
-import { Html } from "@elysiajs/html";
+import { Html, type PropsWithChildren } from "@elysiajs/html";
 
-export const Layout = ({ children }: { children: JSX.Element }) => (
+export const Layout = ({ children }: PropsWithChildren) => (
   <html lang="en">
     <head>
       <meta charset="utf-8" />

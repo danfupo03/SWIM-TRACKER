@@ -13,4 +13,4 @@ db.run(`
   )
 `);
 
-export default db;
+export { db };

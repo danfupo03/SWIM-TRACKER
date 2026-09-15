@@ -2347,6 +2347,15 @@
   .w-full {
     width: 100%;
   }
+  .max-w-3 {
+    max-width: calc(var(--spacing) * 3);
+  }
+  .max-w-135 {
+    max-width: calc(var(--spacing) * 135);
+  }
+  .max-w-300 {
+    max-width: calc(var(--spacing) * 300);
+  }
   .max-w-\[33\.75rem\] {
     max-width: 33.75rem;
   }

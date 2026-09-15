@@ -1,5 +1,5 @@
 import { db } from "../../db/database";
-import type { TimeRecord, CreateTimeBody, UpdateTimeBody } from "./time.model";
+import type { TimeRecord, CreateTimeBody, UpdateTimeBody, TimeFilters } from "./time.model";
 
 export function parseTimeToSeconds(input: string): number {
   const parts = input.split(":");
@@ -21,24 +21,54 @@ export function formatSeconds(seconds: number): string {
   return `${minutes}:${remainingSeconds.toFixed(2).padStart(5, "0")}`;
 }
 
+const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+export function formatDate(isoDate: string): string {
+  const timestamp = Date.parse(`${isoDate}T00:00:00Z`);
+  if (Number.isNaN(timestamp)) return isoDate;
+
+  return dateFormatter.format(timestamp);
+}
+
+function buildWhereClause(filters: TimeFilters) {
+  let where = "WHERE 1=1";
+  const params: Record<string, string> = {};
+
+  if (filters.season) {
+    where += " AND season = $season";
+    params.$season = filters.season;
+  }
+
+  if (filters.test) {
+    where += " AND test = $test";
+    params.$test = filters.test;
+  }
+
+  return { where, params };
+}
+
 export const timeService = {
-  findAll(filters: { season?: string; test?: string } = {}): TimeRecord[] {
-    let query = "SELECT * FROM times WHERE 1=1";
-    const params: Record<string, string> = {};
+  findAll(filters: TimeFilters = {}): TimeRecord[] {
+    const { where, params } = buildWhereClause(filters);
 
-    if (filters.season) {
-      query += " AND season = $season";
-      params.$season = filters.season;
-    }
+    return db
+      .query(`SELECT * FROM times ${where} ORDER BY date DESC, id DESC`)
+      .all(params) as TimeRecord[];
+  },
 
-    if (filters.test) {
-      query += " AND test = $test";
-      params.$test = filters.test;
-    }
+  count(filters: TimeFilters = {}): number {
+    const { where, params } = buildWhereClause(filters);
 
-    query += " ORDER BY date DESC";
+    const row = db
+      .query(`SELECT COUNT(*) AS total FROM times ${where}`)
+      .get(params) as { total: number };
 
-    return db.query(query).all(params) as TimeRecord[];
+    return row.total;
   },
 
   findById(id: number): TimeRecord | null {

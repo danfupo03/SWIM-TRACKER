@@ -1,3 +1,148 @@
 @import "tailwindcss";
 @source "./src/**/*.tsx";
-@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+/*
+ * Lagoon — calm deep-water palette.
+ */
+@plugin "daisyui/theme" {
+  name: "lagoon";
+  default: true;
+  prefersdark: false;
+  color-scheme: dark;
+
+  /* Surfaces (glass utilities below apply them translucently) */
+  --color-base-100: #071e32;
+  --color-base-200: #031220;
+  --color-base-300: #0b2c42;
+  --color-base-content: #e6f2f5;
+
+  --color-primary: #5ccfe0;
+  --color-primary-content: #032230;
+  --color-secondary: #b4ced7;
+  --color-secondary-content: #032230;
+  --color-accent: #f0a98c;
+  --color-accent-content: #2a1308;
+  --color-neutral: #0b2c42;
+  --color-neutral-content: #e6f2f5;
+
+  --color-info: #7cc4f0;
+  --color-info-content: #03182a;
+  --color-success: #7fd9b0;
+  --color-success-content: #04241a;
+  --color-warning: #f0cf8c;
+  --color-warning-content: #2a1f08;
+  --color-error: #f39b93;
+  --color-error-content: #2a0b08;
+
+  /* Secondary text tiers */
+  --ink-soft: #b4ced7;
+  --ink-muted: #93b4c0;
+
+  /* Background gradient stops */
+  --ocean-surface: #04182c;
+  --ocean-shallow: #072a45;
+  --ocean-mid: #0b4a63;
+  --ocean-deep: #117080;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.275rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme inline {
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+}
+
+@theme {
+  --font-sans: "Manrope", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  body {
+    background:
+      radial-gradient(ellipse 60% 45% at 18% 0%, color-mix(in oklab, var(--color-primary) 20%, transparent), transparent 70%),
+      radial-gradient(ellipse 55% 40% at 88% 100%, color-mix(in oklab, var(--color-success) 14%, transparent), transparent 70%),
+      linear-gradient(165deg, var(--ocean-surface) 0%, var(--ocean-shallow) 36%, var(--ocean-mid) 72%, var(--ocean-deep) 100%);
+    background-attachment: fixed;
+  }
+
+  /* Faint wave lines along the bottom of the viewport */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: auto 0 0 0;
+    height: 20rem;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.5;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none' fill='none' stroke='rgba(190,240,248,0.07)' stroke-width='1.5'%3E%3Cpath d='M0 120 C 240 70, 480 170, 720 120 S 1200 70, 1440 120'/%3E%3Cpath d='M0 180 C 260 130, 500 230, 740 180 S 1220 130, 1440 180'/%3E%3Cpath d='M0 240 C 220 200, 520 290, 760 240 S 1180 200, 1440 240'/%3E%3C/svg%3E")
+      center bottom / 100% 100% no-repeat;
+  }
+}
+
+@layer components {
+  tbody:has(> tr[data-time-id]) > .empty-row {
+    display: none;
+  }
+}
+
+@utility glass-panel {
+  background-color: color-mix(in oklab, var(--color-base-100) 58%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--ink-soft) 18%, transparent);
+  border-radius: var(--radius-box);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 24px 48px -24px rgb(0 8 20 / 0.6);
+}
+
+@utility glass-modal {
+  background-color: color-mix(in oklab, var(--color-base-100) 86%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink-soft) 22%, transparent);
+  border-radius: 1.5rem;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 40px 80px -30px rgb(0 6 16 / 0.8);
+}
+
+@utility ocean-backdrop {
+  &[open] {
+    background-color: color-mix(in oklab, var(--color-base-200) 55%, transparent);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+@utility glass-field {
+  background-color: color-mix(in oklab, var(--color-base-200) 45%, transparent);
+  border-color: color-mix(in oklab, var(--ink-soft) 18%, transparent);
+  font-size: 0.9375rem;
+
+  &::placeholder {
+    color: var(--ink-muted);
+  }
+
+  &:focus,
+  &:focus-within {
+    outline: none;
+    border-color: color-mix(in oklab, var(--color-primary) 75%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 18%, transparent);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: color-mix(in oklab, var(--color-error) 80%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-error) 14%, transparent);
+  }
+}

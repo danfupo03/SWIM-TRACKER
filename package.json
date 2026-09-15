@@ -1,19 +1,19 @@
 {
   "name": "swim-tracker",
-  "module": "index.ts",
+  "module": "src/index.tsx",
   "type": "module",
   "private": true,
   "scripts": {
+    "start": "concurrently --kill-others --names css,server --prefix-colors cyan,green bun:build:css bun:dev",
     "dev": "bun run --watch src/index.tsx",
     "build:css": "bunx @tailwindcss/cli -i app.css -o public/output.css --watch"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "@types/bun": "latest",
+    "concurrently": "^10.0.5",
     "daisyui": "^5.7.37",
-    "tailwindcss": "^4.3.3"
-  },
-  "peerDependencies": {
+    "tailwindcss": "^4.3.3",
     "typescript": "^7"
   },
   "dependencies": {

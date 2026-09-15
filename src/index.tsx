@@ -1,5 +1,6 @@
 import { Elysia } from "elysia";
 import { html, Html } from "@elysiajs/html";
+import { staticPlugin } from "@elysiajs/static";
 import { timeController } from "./modules/time/time.controller";
 import { timeService } from "./modules/time/time.service";
 import { Home } from "./views/home";
@@ -7,6 +8,7 @@ import "./db/database";
 
 const app = new Elysia()
   .use(html())
+  .use(staticPlugin({ assets: "public", prefix: "/public" }))
   .use(timeController)
   .get("/", () => (
     <Home

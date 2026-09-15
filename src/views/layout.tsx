@@ -34,6 +34,7 @@ export const Layout = ({ title, page, children }: LayoutProps) => (
         <Nav page={page} />
         <main class="mt-10 md:mt-11">{children}</main>
       </div>
+      <span class="fixed right-4 bottom-4 text-sm text-ink-soft">v1.0.0</span>
     </body>
   </html>
 );

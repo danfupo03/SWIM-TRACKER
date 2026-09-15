@@ -8,6 +8,6 @@ export const Layout = ({ children }: PropsWithChildren) => (
       <script src="https://unpkg.com/htmx.org@2.0.3"></script>
       <link rel="stylesheet" href="/public/output.css" />
     </head>
-    <body>{children}</body>
+    <body class="p-4">{children}</body>
   </html>
 );
